@@ -37,13 +37,7 @@ class Products with ChangeNotifier {
     )
   ];
 
-  //var _showFavouritesOnly = false;
-
   List<Product> get items {
-    // if (_showFavouritesOnly) {
-    //   return _items.where((prodItem) => prodItem.isFavourite).toList();
-    // }
-
     return [..._items];
   }
 
@@ -55,13 +49,31 @@ class Products with ChangeNotifier {
     return _items.firstWhere((p) => p.id == id);
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavouritesOnly = true;
-  //   notifyListeners();
-  // }
-  //
-  // void showAll() {
-  //   _showFavouritesOnly = false;
-  //   notifyListeners();
-  // }
+  void addProduct(Product product) {
+    final newProduct = Product (
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        id: DateTime.now().toString());
+
+    _items.add(newProduct);
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product product) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+
+    if(prodIndex >= 0 ) {
+      _items[prodIndex] = product;
+      notifyListeners();
+    } else {
+      print('...');
+    }
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 }
