@@ -8,6 +8,9 @@ import '../models/cart_item.dart';
 class Orders with ChangeNotifier {
   final baseURl = 'https://10.0.2.2:44302/api/store/';
   List<OrderItem> _orders = [];
+  final String? token;
+
+  Orders(this.token, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -17,7 +20,7 @@ class Orders with ChangeNotifier {
    var url = Uri.parse(baseURl + 'get-orders');
 
    try {
-     final response =  await http.get(url);
+     final response =  await http.get(url, headers: { 'Authentication': token!});
      final orderList = json.decode(response.body) as List<dynamic>;
      final List<OrderItem> loadedProducts = [];
 
@@ -61,7 +64,7 @@ class Orders with ChangeNotifier {
       }).toList()});
 
     try {
-      await http.post(url, headers: {'Content-Type': 'application/json'}, body: body).then((response) {
+      await http.post(url, headers: {'Content-Type': 'application/json', 'Authentication': token!}, body: body).then((response) {
 
         print(response.body);
       });

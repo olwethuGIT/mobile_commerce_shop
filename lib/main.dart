@@ -38,31 +38,37 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => Auth()
           ),
-          ChangeNotifierProvider(
-            create: (ctx) => Products(),
+          // Products provider depends on the Auth provider. Whenever auth builds the provide proxy builds as well.
+          ChangeNotifierProxyProvider<Auth, Products>(
+            create: (_) => Products.init(),
+            update: (ctx, auth,previousProducts) => Products(auth.token, previousProducts == null ? [] : previousProducts.items),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
           ),
-          ChangeNotifierProvider(
-            create: (ctx) => Orders(),
+          ChangeNotifierProxyProvider<Auth, Orders>(
+            create: (_) => Orders(),
+            update: (ctx, auth, previousOrders) => Orders(auth.token, previousOrders == null ? [] : previousOrders.orders),
           ),
         ],
-      child: MaterialApp(
-            title: 'My Shop',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                fontFamily: 'Lato', colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange)
-            ),
-            home: const AuthScreen(),
-            routes: {
-              ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
-              CartScreen.routeName: (ctx) => const CartScreen(),
-              OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-              UserProductScreen.routeName: (ctx) => const UserProductScreen(),
-              EditProductScreen.routeName: (ctx) => const EditProductScreen()
-            },
-      ),
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'My Shop',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              fontFamily: 'Lato',
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange)
+          ),
+          home: auth.isAuth ? const ProductsOverviewScreen() : const AuthScreen(),
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => const CartScreen(),
+            OrdersScreen.routeName: (ctx) => const OrdersScreen(),
+            UserProductScreen.routeName: (ctx) => const UserProductScreen(),
+            EditProductScreen.routeName: (ctx) => const EditProductScreen()
+          },
+        ),
+      )
     );
   }
 }

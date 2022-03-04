@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_commerce_shop/providers/product.dart';
+import '../providers/auth.dart';
+import '../providers/product.dart';
 import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../providers/cart.dart';
@@ -12,6 +13,7 @@ class ProductItem extends StatelessWidget{
     //final product = Provider.of<Product>(context);
     final scaffold = ScaffoldMessenger.of(context);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     // TODO: implement build
     return Consumer<Product>(
         builder: (ctx, product, _) => ClipRRect(
@@ -33,7 +35,7 @@ class ProductItem extends StatelessWidget{
                 onPressed: () async {
                   try {
                     final favoriteStatus = product.isFavourite;
-                    await product.toggleFavouriteStatus();
+                    await product.toggleFavouriteStatus(authData!.token, authData!.userId);
 
                     if (!favoriteStatus) {
                       scaffold.showSnackBar(const SnackBar(content: Text("Product marked as favorite."),));

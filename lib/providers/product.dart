@@ -20,7 +20,7 @@ class Product with ChangeNotifier {
     this.isFavourite = false
   });
 
-  Future<void> toggleFavouriteStatus() async {
+  Future<void> toggleFavouriteStatus(String? token, String? userId) async {
     var url = Uri.parse('https://10.0.2.2:44302/api/store/toggle-product-favorite-status');
     final oldStatus = isFavourite;
     isFavourite = !isFavourite;
@@ -28,7 +28,11 @@ class Product with ChangeNotifier {
 
     try{
       final response = await http.patch(url,
-          headers: {'Content-Type': 'application/json'}, body: json.encode(id));
+          headers: {'Content-Type': 'application/json', 'Authentication': token! }, body: json.encode({
+            'username': userId,
+            'productId': id,
+            'isFavourite': isFavourite
+          }));
 
       if (response.statusCode >= 400) {
         isFavourite = oldStatus;
