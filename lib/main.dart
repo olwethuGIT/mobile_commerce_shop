@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import './providers/auth.dart';
 import 'package:provider/provider.dart';
 import './screens/product_detail_screen.dart';
 import './screens/products_overview_screen.dart';
@@ -9,8 +12,21 @@ import './providers/orders.dart';
 import './screens/orders_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/user_product_screen.dart';
+import './screens/auth_screen.dart';
 
-void main() => runApp(const MyApp());
+class PostHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
+void main() {
+
+ HttpOverrides.global = PostHttpOverrides();
+ runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,6 +35,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => Auth()
+          ),
           ChangeNotifierProvider(
             create: (ctx) => Products(),
           ),
@@ -35,7 +54,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
                 fontFamily: 'Lato', colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange)
             ),
-            home: const ProductsOverviewScreen(),
+            home: const AuthScreen(),
             routes: {
               ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
               CartScreen.routeName: (ctx) => const CartScreen(),

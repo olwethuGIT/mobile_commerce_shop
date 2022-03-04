@@ -10,6 +10,7 @@ class ProductItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     //final product = Provider.of<Product>(context);
+    final scaffold = ScaffoldMessenger.of(context);
     final cart = Provider.of<Cart>(context, listen: false);
     // TODO: implement build
     return Consumer<Product>(
@@ -29,8 +30,19 @@ class ProductItem extends StatelessWidget{
               backgroundColor: Colors.black38,
               leading: IconButton(
                 icon: Icon(product.isFavourite ? Icons.favorite : Icons.favorite_border),
-                onPressed: () {
-                  product.toggleFavouriteStatus();
+                onPressed: () async {
+                  try {
+                    final favoriteStatus = product.isFavourite;
+                    await product.toggleFavouriteStatus();
+
+                    if (!favoriteStatus) {
+                      scaffold.showSnackBar(const SnackBar(content: Text("Product marked as favorite."),));
+                    } else {
+                      scaffold.showSnackBar(const SnackBar(content: Text("Product removed from the favorites."),));
+                    }
+                  } catch (error) {
+                    scaffold.showSnackBar(const SnackBar(content: Text("Failed to toggle the favorite status"),));
+                  }
                 },
                 color: Theme.of(context).colorScheme.secondary,
               ),
