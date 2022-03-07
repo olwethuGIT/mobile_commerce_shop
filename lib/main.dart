@@ -40,14 +40,14 @@ class MyApp extends StatelessWidget {
           ),
           // Products provider depends on the Auth provider. Whenever auth builds the provide proxy builds as well.
           ChangeNotifierProxyProvider<Auth, Products>(
-            create: (_) => Products.init(),
+            create: (_) => Products('', []),
             update: (ctx, auth,previousProducts) => Products(auth.token, previousProducts == null ? [] : previousProducts.items),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
           ),
           ChangeNotifierProxyProvider<Auth, Orders>(
-            create: (_) => Orders(),
+            create: (_) => Orders('', []),
             update: (ctx, auth, previousOrders) => Orders(auth.token, previousOrders == null ? [] : previousOrders.orders),
           ),
         ],

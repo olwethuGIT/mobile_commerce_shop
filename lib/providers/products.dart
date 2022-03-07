@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -28,7 +30,11 @@ class Products with ChangeNotifier {
     var url = Uri.parse(baseURl + 'get-products');
 
     try {
-      final response = await http.get(url, headers: {'Authentication': token!});
+      final response = await http.get(
+          url, headers: {
+        HttpHeaders.acceptEncodingHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer $token"});
       final productList = json.decode(response.body) as List<dynamic>;
       final List<Product> loadedProducts = [];
 
@@ -39,8 +45,7 @@ class Products with ChangeNotifier {
             title: productData['title'],
             description: productData['description'],
             price: productData['price'],
-            imageUrl: productData['imageUrl'],
-            isFavourite: productData['isFavorite']
+            imageUrl: productData['imageUrl']
         ));
       }
 
@@ -57,7 +62,10 @@ class Products with ChangeNotifier {
     try {
       final response = await http.post(
           url,
-          headers: {'Content-Type': 'application/json', 'Authentication': token!},
+          headers: {
+            HttpHeaders.acceptEncodingHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: "Bearer $token"},
           body: json.encode({
             'title': product.title,
             'description': product.description,
@@ -91,7 +99,10 @@ class Products with ChangeNotifier {
 
       await http.patch(
           url,
-          headers: {'Content-Type': 'application/json', 'Authentication': token!},
+          headers: {
+            HttpHeaders.acceptEncodingHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: "Bearer $token"},
           body: json.encode({
             'id': product.id,
             'title': product.title,
@@ -115,7 +126,10 @@ class Products with ChangeNotifier {
 
     notifyListeners();
 
-    final response = await http.delete(url, headers: {'Authentication': token!});
+    final response = await http.delete(url, headers: {
+      HttpHeaders.acceptEncodingHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: "Bearer $token"});
 
     if (response.statusCode >= 400) {
       _items!.insert(tempProductIndex, tempProduct);

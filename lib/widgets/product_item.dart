@@ -35,7 +35,7 @@ class ProductItem extends StatelessWidget{
                 onPressed: () async {
                   try {
                     final favoriteStatus = product.isFavourite;
-                    await product.toggleFavouriteStatus(authData!.token, authData!.userId);
+                    await product.toggleFavouriteStatus(authData.token, authData.userId);
 
                     if (!favoriteStatus) {
                       scaffold.showSnackBar(const SnackBar(content: Text("Product marked as favorite."),));
