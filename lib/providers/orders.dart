@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -9,18 +10,26 @@ class Orders with ChangeNotifier {
   final baseURl = 'https://10.0.2.2:44302/api/store/';
   List<OrderItem> _orders = [];
   final String? token;
+  final String? userId;
 
-  Orders(this.token, this._orders);
+  Orders(this.token, this.userId,this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
  Future<void> getOrders() async {
-   var url = Uri.parse(baseURl + 'get-orders');
+   var url = Uri.parse(baseURl + 'get-orders/$userId');
 
    try {
-     final response =  await http.get(url, headers: { 'Authentication': token!});
+     final response =  await http.get(
+         url,
+         headers: {
+           HttpHeaders.contentTypeHeader: 'application/json',
+           HttpHeaders.acceptHeader: 'application/json',
+           HttpHeaders.authorizationHeader: "Bearer $token"
+         });
+
      final orderList = json.decode(response.body) as List<dynamic>;
      final List<OrderItem> loadedProducts = [];
 
@@ -60,11 +69,20 @@ class Orders with ChangeNotifier {
         'id': cart.id,
         'title': cart.title,
         'quantity': cart.quantity,
-        'price': cart.price
+        'price': cart.price,
+        'username': userId
       }).toList()});
 
     try {
-      await http.post(url, headers: {'Content-Type': 'application/json', 'Authentication': token!}, body: body).then((response) {
+      await http.post(
+          url,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: "Bearer $token"
+          },
+          body: body
+      ).then((response) {
 
         print(response.body);
       });

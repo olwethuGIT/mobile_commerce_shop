@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -27,11 +28,17 @@ class Product with ChangeNotifier {
     notifyListeners();
 
     try{
-      final response = await http.patch(url,
-          headers: {'Content-Type': 'application/json', 'Authentication': token! }, body: json.encode({
+      final response = await http.put(
+          url,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: "Bearer $token"
+          },
+          body: json.encode({
             'username': userId,
             'productId': id,
-            'isFavourite': isFavourite
+            'isFavorite': isFavourite
           }));
 
       if (response.statusCode >= 400) {

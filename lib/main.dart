@@ -13,6 +13,7 @@ import './screens/orders_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/user_product_screen.dart';
 import './screens/auth_screen.dart';
+import './screens/splash_screen.dart';
 
 class PostHttpOverrides extends HttpOverrides{
   @override
@@ -40,15 +41,15 @@ class MyApp extends StatelessWidget {
           ),
           // Products provider depends on the Auth provider. Whenever auth builds the provide proxy builds as well.
           ChangeNotifierProxyProvider<Auth, Products>(
-            create: (_) => Products('', []),
-            update: (ctx, auth,previousProducts) => Products(auth.token, previousProducts == null ? [] : previousProducts.items),
+            create: (_) => Products('', '', []),
+            update: (ctx, auth,previousProducts) => Products(auth.token, auth.userId, previousProducts == null ? [] : previousProducts.items),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
           ),
           ChangeNotifierProxyProvider<Auth, Orders>(
-            create: (_) => Orders('', []),
-            update: (ctx, auth, previousOrders) => Orders(auth.token, previousOrders == null ? [] : previousOrders.orders),
+            create: (_) => Orders('', '', []),
+            update: (ctx, auth, previousOrders) => Orders(auth.token, auth.userId, previousOrders == null ? [] : previousOrders.orders),
           ),
         ],
       child: Consumer<Auth>(
@@ -59,7 +60,10 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Lato',
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange)
           ),
-          home: auth.isAuth ? const ProductsOverviewScreen() : const AuthScreen(),
+          home: auth.isAuth ? const ProductsOverviewScreen() : FutureBuilder(
+              future: auth.tryAutoLogin(),
+              builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? const SplashScreen() : const AuthScreen(),
+          ),
           routes: {
             ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
             CartScreen.routeName: (ctx) => const CartScreen(),
