@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import '../providers/products.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/color_dots.dart';
+import '../widgets/top_rounded_container.dart';
+import '../providers/products.dart';
+import '../widgets/default_button.dart';
 
 class ProductDetailScreen extends StatelessWidget{
   static const routeName = '/product-detail';
@@ -8,6 +12,7 @@ class ProductDetailScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context);
     final productId =  ModalRoute.of(context)?.settings.arguments as String;
     final loadedProducts = Provider.of<Products>(context, listen: false).findById(productId);
 
@@ -24,25 +29,53 @@ class ProductDetailScreen extends StatelessWidget{
               width: double.infinity,
               child: Image.network(loadedProducts.imageUrl, fit: BoxFit.cover,),
             ),
-            const SizedBox(height: 10,),
-            Text(
-              '${loadedProducts.price}',
-              style: const TextStyle(color: Colors.grey, fontSize: 20),
-            ),
-            const SizedBox(height: 10,),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              width: double.infinity,
-              child: Text(
-                loadedProducts.description,
-                textAlign: TextAlign.center,
-                softWrap: true,
-              ),
+            TopRoundedContainer(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '${loadedProducts.price}',
+                      style: const TextStyle(color: Colors.grey, fontSize: 20),
+                    ),
+                    const SizedBox(height: 10,),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      width: double.infinity,
+                      child: Text(
+                        loadedProducts.description,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                      ),
+                    ),
+                    TopRoundedContainer(
+                        color: const Color(0xFFF6F7F9),
+                        child: Column(
+                          children: <Widget>[
+                            const ColorDots(),
+                            TopRoundedContainer(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: _size.size.width * 0.15,
+                                  right: _size.size.width * 0.15,
+                                  bottom: _size.size.width * (40 / 375.0),
+                                  top: _size.size.width * (15 / 375.0)
+                                ),
+                                child: DefaultButton(
+                                  title: "Add To Card",
+                                  press: () {},
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                    )
+                  ],
+                )
             )
           ],
         ),
       )
     );
   }
-
 }

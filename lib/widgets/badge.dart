@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_commerce_shop/constants.dart';
 
 class Badge extends StatelessWidget {
   const Badge({
@@ -14,31 +15,34 @@ class Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context);
     return Stack(
-      alignment: Alignment.center,
+      clipBehavior: Clip.none,
       children: [
         child ?? Container(),
         Positioned(
-          right: 8,
-          top: 8,
+          right: 0,
+          top: -3,
           child: Container(
-            padding: const EdgeInsets.all(2.0),
-            // color: Theme.of(context).accentColor,
+            height: size.size.width * (16 / 375.0),
+            width: size.size.width * (16 / 375.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: color ?? Theme.of(context).accentColor,
+              shape: BoxShape.circle,
+              border: Border.all(width: 1.5, color: Colors.white),
+              color: const Color(0xFFFF4848),
             ),
-            constraints: const BoxConstraints(
-              minWidth: 16,
-              minHeight: 16,
-            ),
-            child: Text(
-              value,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 10,
+            child: Center(
+              child: Text(
+                value,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 10,
+                  height: 1,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white
+                ),
               ),
-            ),
+            )
           ),
         )
       ],
