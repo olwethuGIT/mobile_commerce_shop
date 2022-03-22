@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_commerce_shop/constants.dart';
 import '../screens/cart_screen.dart';
-import '../size_config.dart';
 import './circle_button.dart';
 
 class HomeHeader extends StatelessWidget {

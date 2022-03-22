@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_commerce_shop/widgets/product_description.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/color_dots.dart';
@@ -34,18 +35,15 @@ class ProductDetailScreen extends StatelessWidget{
                 child: Column(
                   children: <Widget>[
                     Text(
-                      '${loadedProducts.price}',
+                      'R ${loadedProducts.price}',
                       style: const TextStyle(color: Colors.grey, fontSize: 20),
                     ),
                     const SizedBox(height: 10,),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      width: double.infinity,
-                      child: Text(
-                        loadedProducts.description,
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                      ),
+                    ProductDescription(
+                        description: loadedProducts.description,
+                        press: () {},
+                        isFavorite: loadedProducts.isFavourite,
+                        title: loadedProducts.title,
                     ),
                     TopRoundedContainer(
                         color: const Color(0xFFF6F7F9),

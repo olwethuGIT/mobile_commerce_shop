@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_commerce_shop/widgets/home_body.dart';
 import '../providers/products.dart';
-import '../providers/cart.dart';
 import 'package:provider/provider.dart';
-import '../widgets/products_grid.dart';
-import '../models/filter_options.dart';
-import '../widgets/badge.dart';
-import './cart_screen.dart';
 import '../widgets/app_drawer.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {

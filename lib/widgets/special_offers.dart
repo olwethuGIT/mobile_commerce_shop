@@ -48,7 +48,6 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context);
-    final scaffold = ScaffoldMessenger.of(context);
     //final cart = Provider.of<Cart>(context, listen: false);
     final authData = Provider.of<Auth>(context, listen: false);
     return Padding(

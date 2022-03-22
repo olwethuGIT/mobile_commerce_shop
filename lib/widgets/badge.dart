@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_commerce_shop/constants.dart';
 
 class Badge extends StatelessWidget {
   const Badge({
