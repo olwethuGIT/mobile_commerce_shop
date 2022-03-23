@@ -65,7 +65,7 @@ class SpecialOfferCard extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Image.network(
-                        product.imageUrl,
+                        product.photos[0].url,
                         fit: BoxFit.cover
                     ),
                     Container(

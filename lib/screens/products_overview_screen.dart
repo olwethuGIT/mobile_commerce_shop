@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_commerce_shop/screens/splash_screen.dart';
 import 'package:mobile_commerce_shop/widgets/home_body.dart';
 import '../providers/products.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class _ProductsOverviewScreen extends State<ProductsOverviewScreen> {
     return Scaffold(
       drawer: const AppDrawer(),
       body: _isLoading ? const Center(
-        child: CircularProgressIndicator(),
+        child: SplashScreen(),
       ) : const HomeBody()
     );
   }

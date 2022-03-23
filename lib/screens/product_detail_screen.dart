@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_commerce_shop/widgets/product_app_bar.dart';
 import 'package:mobile_commerce_shop/widgets/product_description.dart';
+import 'package:mobile_commerce_shop/widgets/product_image.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/color_dots.dart';
@@ -19,17 +21,15 @@ class ProductDetailScreen extends StatelessWidget{
 
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loadedProducts.title),
+      backgroundColor: const Color(0xFFF5F6F9),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+        child: const ProductAppBar(rating: 5),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(loadedProducts.imageUrl, fit: BoxFit.cover,),
-            ),
+            ProductImages(product: loadedProducts),
             TopRoundedContainer(
                 color: Colors.white,
                 child: Column(

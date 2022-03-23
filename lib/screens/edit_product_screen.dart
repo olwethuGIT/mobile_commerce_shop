@@ -18,7 +18,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  var _editedProduct = Product(id: '', title: '', price: 0, description: '', imageUrl: '');
+  var _editedProduct = Product(id: '', title: '', price: 0, description: '', photos: []);
   var _isInit = true;
   var _initValues = {
     'title': '',
@@ -59,7 +59,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           'description': _editedProduct.description,
           'price': _editedProduct.price.toString()
         };
-        _imageUrlController.text = _editedProduct.imageUrl;
+        //_imageUrlController.text = _editedProduct.imageUrl;
       }
     }
 
@@ -174,8 +174,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               title: value ?? '',
                               description: _editedProduct.description,
                               price: _editedProduct.price,
-                              imageUrl: _editedProduct.imageUrl,
-                              isFavourite: _editedProduct.isFavourite
+                              //imageUrl: _editedProduct.imageUrl,
+                              isFavourite: _editedProduct.isFavourite,
+                              photos: []
                           );
                         },
                       ),
@@ -211,8 +212,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               title: _editedProduct.title,
                               description: _editedProduct.description,
                               price: double.parse(value ?? '0'),
-                              imageUrl: _editedProduct.imageUrl,
-                              isFavourite: _editedProduct.isFavourite);
+                              //imageUrl: _editedProduct.imageUrl,
+                              isFavourite: _editedProduct.isFavourite,
+                              photos: []
+                          );
                         },
                       ),
                       TextFormField(
@@ -239,8 +242,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               title: _editedProduct.title,
                               description: value ?? '',
                               price: _editedProduct.price,
-                              imageUrl: _editedProduct.imageUrl,
-                              isFavourite: _editedProduct.isFavourite);
+                              //imageUrl: _editedProduct.imageUrl,
+                              isFavourite: _editedProduct.isFavourite,
+                              photos: []
+                          );
                         },
                       ),
                       Row(
@@ -293,8 +298,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                     title: _editedProduct.title,
                                     description: _editedProduct.description,
                                     price: _editedProduct.price,
-                                    imageUrl: value ?? '',
-                                    isFavourite: _editedProduct.isFavourite);
+                                    //imageUrl: value ?? '',
+                                    isFavourite: _editedProduct.isFavourite,
+                                    photos: []);
                               },
                             ),
                           )

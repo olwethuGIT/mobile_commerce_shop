@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_commerce_shop/models/product_photo.dart';
 import 'dart:convert';
 import '../models/http_exception.dart';
 
@@ -48,8 +49,13 @@ class Products with ChangeNotifier {
             title: productData['title'],
             description: productData['description'],
             price: productData['price'],
-            imageUrl: productData['imageUrl'],
-            isFavourite: productData['isFavorite']
+            isFavourite: productData['isFavorite'],
+            photos: (productData['photos'] as List<dynamic>).map((photo) =>  ProductPhoto(
+                id: photo['id'],
+                url: photo['url'],
+                dateAdded: DateTime.parse(photo['dateAdded']),
+                productId: photo['productId']
+            )).toList()
         ));
       }
 
@@ -74,7 +80,7 @@ class Products with ChangeNotifier {
           body: json.encode({
             'title': product.title,
             'description': product.description,
-            'imageUrl': product.imageUrl,
+            //'imageUrl': product.imageUrl,
             'price': product.price
           }));
 
@@ -82,8 +88,9 @@ class Products with ChangeNotifier {
           title: product.title,
           description: product.description,
           price: product.price,
-          imageUrl: product.imageUrl,
-          id: json.decode(response.body)['id'].toString()
+          //imageUrl: product.imageUrl,
+          id: json.decode(response.body)['id'].toString(),
+          photos: []
       );
 
       _items!.add(newProduct);
@@ -113,7 +120,7 @@ class Products with ChangeNotifier {
             'id': product.id,
             'title': product.title,
             'description': product.description,
-            'imageUrl': product.imageUrl,
+            //'imageUrl': product.imageUrl,
             'price': product.price
           }));
 

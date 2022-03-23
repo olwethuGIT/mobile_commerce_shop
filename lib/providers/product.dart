@@ -3,22 +3,23 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_commerce_shop/models/product_photo.dart';
 
 class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
   final double price;
-  final String imageUrl;
   late bool isFavourite;
+  final List<ProductPhoto> photos;
 
   Product({
     required this.id,
     required this.title,
     required this.description,
     required this.price,
-    required this.imageUrl,
-    this.isFavourite = false
+    this.isFavourite = false,
+    required this.photos
   });
 
   Future<void> toggleFavouriteStatus(String? token, String? userId) async {
