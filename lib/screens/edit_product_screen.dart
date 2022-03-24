@@ -18,7 +18,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  var _editedProduct = Product(id: '', title: '', price: 0, description: '', photos: []);
+  var _editedProduct = Product(id: '', title: '', price: 0, description: '', photos: [], colors: []);
   var _isInit = true;
   var _initValues = {
     'title': '',
@@ -176,7 +176,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               price: _editedProduct.price,
                               //imageUrl: _editedProduct.imageUrl,
                               isFavourite: _editedProduct.isFavourite,
-                              photos: []
+                              photos: [],
+                              colors: []
                           );
                         },
                       ),
@@ -214,7 +215,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               price: double.parse(value ?? '0'),
                               //imageUrl: _editedProduct.imageUrl,
                               isFavourite: _editedProduct.isFavourite,
-                              photos: []
+                              photos: [],
+                              colors: []
                           );
                         },
                       ),
@@ -244,7 +246,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               price: _editedProduct.price,
                               //imageUrl: _editedProduct.imageUrl,
                               isFavourite: _editedProduct.isFavourite,
-                              photos: []
+                              photos: [],
+                              colors: []
                           );
                         },
                       ),
@@ -300,7 +303,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                     price: _editedProduct.price,
                                     //imageUrl: value ?? '',
                                     isFavourite: _editedProduct.isFavourite,
-                                    photos: []);
+                                    photos: [],
+                                    colors: []
+                                );
                               },
                             ),
                           )

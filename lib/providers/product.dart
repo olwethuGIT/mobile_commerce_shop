@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_commerce_shop/models/product_photo.dart';
+
+import '../models/product_color.dart';
+import '../models/product_photo.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -12,6 +13,7 @@ class Product with ChangeNotifier {
   final double price;
   late bool isFavourite;
   final List<ProductPhoto> photos;
+  final List<ProductColor> colors;
 
   Product({
     required this.id,
@@ -19,7 +21,8 @@ class Product with ChangeNotifier {
     required this.description,
     required this.price,
     this.isFavourite = false,
-    required this.photos
+    required this.photos,
+    required this.colors
   });
 
   Future<void> toggleFavouriteStatus(String? token, String? userId) async {

@@ -1,9 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_commerce_shop/models/product_photo.dart';
 import 'dart:convert';
+
+import '../models/product_color.dart';
+import '../models/product_photo.dart';
 import '../models/http_exception.dart';
 
 import 'product.dart';
@@ -55,6 +56,12 @@ class Products with ChangeNotifier {
                 url: photo['url'],
                 dateAdded: DateTime.parse(photo['dateAdded']),
                 productId: photo['productId']
+            )).toList(),
+            colors: (productData['colors'] as List<dynamic>).map((color) =>  ProductColor(
+                id: color['id'],
+                colorCode: color['colorCode'],
+                dateAdded: DateTime.parse(color['dateAdded']),
+                productId: color['productId']
             )).toList()
         ));
       }
@@ -90,7 +97,8 @@ class Products with ChangeNotifier {
           price: product.price,
           //imageUrl: product.imageUrl,
           id: json.decode(response.body)['id'].toString(),
-          photos: []
+          photos: [],
+          colors: []
       );
 
       _items!.add(newProduct);

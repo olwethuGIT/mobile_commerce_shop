@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_commerce_shop/constants.dart';
+import 'package:mobile_commerce_shop/models/product_color.dart';
 import 'package:mobile_commerce_shop/widgets/rounded_icon_button.dart';
 
 class ColorDots extends StatelessWidget {
-  const ColorDots({Key? key}) : super(key: key);
+  final List<ProductColor> colors;
+  final int productId;
+  const ColorDots({Key? key, required this.colors, required this.productId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int selectedColor = 3;
+    int selectedColor = 0;
     final _size = MediaQuery.of(context);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: _size.size.width * (20 / 375.0)),
         child: Row(
           children: <Widget>[
             ...List.generate(
-                4,
+                colors.length,
                 (i) => ColorDot(
-                    color: Colors.green,
+                    color: HexColor(colors[i].colorCode),
                     isSelected: i == selectedColor
                 )
             ),
@@ -66,4 +69,15 @@ class ColorDot extends StatelessWidget {
       ),
     );
   }
+}
+
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

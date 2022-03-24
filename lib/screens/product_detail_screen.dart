@@ -17,7 +17,7 @@ class ProductDetailScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context);
     final productId =  ModalRoute.of(context)?.settings.arguments as String;
-    final loadedProducts = Provider.of<Products>(context, listen: false).findById(productId);
+    final loadedProducts = Provider.of<Products>(context).findById(productId);
 
     // TODO: implement build
     return Scaffold(
@@ -40,16 +40,13 @@ class ProductDetailScreen extends StatelessWidget{
                     ),
                     const SizedBox(height: 10,),
                     ProductDescription(
-                        description: loadedProducts.description,
-                        press: () {},
-                        isFavorite: loadedProducts.isFavourite,
-                        title: loadedProducts.title,
+                        product: loadedProducts,
                     ),
                     TopRoundedContainer(
                         color: const Color(0xFFF6F7F9),
                         child: Column(
                           children: <Widget>[
-                            const ColorDots(),
+                            ColorDots(colors: loadedProducts.colors, productId: int.parse(loadedProducts.id)),
                             TopRoundedContainer(
                               color: Colors.white,
                               child: Padding(

@@ -1,8 +1,9 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import './providers/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
+import './screens/home_screen.dart';
+import './providers/auth.dart';
 import './screens/product_detail_screen.dart';
 import './screens/products_overview_screen.dart';
 import './providers/products.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Lato',
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange)
           ),
-          home: auth.isAuth ? const ProductsOverviewScreen() : FutureBuilder(
+          home: auth.isAuth ? const HomeScreen() : FutureBuilder(
               future: auth.tryAutoLogin(),
               builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? const SplashScreen() : const AuthScreen(),
           ),
